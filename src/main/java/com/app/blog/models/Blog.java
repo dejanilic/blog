@@ -8,10 +8,11 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
