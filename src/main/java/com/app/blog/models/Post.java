@@ -28,7 +28,6 @@ public class Post {
 
     // user id
 
-    // blog id
     @ManyToMany
     @JoinTable(name = "post_blog", joinColumns = @JoinColumn(name = "post_id"),
     inverseJoinColumns = @JoinColumn(name = "blog_id"))
