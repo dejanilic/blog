@@ -26,10 +26,14 @@ public class Post {
     private String dateModified;
     private String modifiedBy;
 
-    // user id
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @ManyToMany
-    @JoinTable(name = "post_blog", joinColumns = @JoinColumn(name = "post_id"),
-    inverseJoinColumns = @JoinColumn(name = "blog_id"))
-    private Set<Blog> blogs = new HashSet<Blog>();
+    @ManyToOne
+    @JoinColumn(name = "blog_id")
+    private Blog blog;
+
+    @OneToMany(mappedBy = "post")
+    private Set<Comment> comments = new HashSet<Comment>();
 }
