@@ -17,10 +17,14 @@ public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String title;
     private String dateCreated;
 
-    @ManyToMany(mappedBy = "blogs")
-    private Set<Post> posts = new HashSet<Post>();
+    @ManyToMany
+    @JoinTable(name = "user_blog", joinColumns = @JoinColumn(name = "blog_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> users = new HashSet<>();
+
+    @OneToMany(mappedBy = "blog")
+    private Set<Post> posts = new HashSet<>();
 }
