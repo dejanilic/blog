@@ -6,10 +6,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,6 +20,11 @@ public class Comment {
     private Boolean approved = false;
     private String dateCreated;
 
-    // post id
-    // user id
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 }
