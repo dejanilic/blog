@@ -6,10 +6,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,4 +17,7 @@ public class Role {
 
     @Enumerated(EnumType.STRING)
     private Position position;
+
+    @OneToOne(mappedBy = "role")
+    private User user;
 }
