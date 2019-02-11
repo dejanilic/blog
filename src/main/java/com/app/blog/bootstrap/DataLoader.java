@@ -6,20 +6,25 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     private final RoleRepositorium roleRepositorium;
+    private final UserRepositorium userRepositorium;
 
-    public DataLoader(RoleRepositorium roleRepositorium) {
+    public DataLoader(RoleRepositorium roleRepositorium, UserRepositorium userRepositorium) {
         this.roleRepositorium = roleRepositorium;
+        this.userRepositorium = userRepositorium;
     }
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        load();
+        loadRoles();
+        loadUsers();
     }
 
-    private void load() {
+    private void loadRoles() {
         Role superAdmin = new Role();
         superAdmin.setPosition(Position.SUPER_ADMIN);
 
@@ -36,5 +41,17 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         roleRepositorium.save(administrator);
         roleRepositorium.save(editor);
         roleRepositorium.save(author);
+    }
+
+    private void loadUsers() {
+        User superAdmin = new User();
+        superAdmin.setUsername("admin");
+        superAdmin.setPassword("admin");
+
+        Role role = roleRepositorium.getRoleByPosition(Position.SUPER_ADMIN).orElse(null);
+
+        superAdmin.setRole(role);
+
+        userRepositorium.save(superAdmin);
     }
 }
