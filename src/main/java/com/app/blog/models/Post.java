@@ -1,5 +1,6 @@
 package com.app.blog.models;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"user", "blog"})
 @Getter
 @Setter
 @Entity
