@@ -44,10 +44,19 @@ public class UserService implements IUser {
     public String validate(UserCommand userCommand) {
         User detachedUser = userCommandToUser.convert(userCommand);
         if (exists(detachedUser)) {
-
+            Optional<User> user = findByUsernameAndPassword(detachedUser);
+            switch(user.get().getRole().getPosition()) {
+                case SUPER_ADMIN:
+                    return "Super Admin";
+                case ADMINISTRATOR:
+                    return "Administrator";
+                case AUTHOR:
+                    return "Author";
+                case EDITOR:
+                    return "Editor";
+            }
         }
-
-        return null;
+        return "";
     }
 
     private Optional<User> findByUsernameAndPassword(User user) {
