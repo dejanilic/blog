@@ -9,6 +9,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserToUserCommand implements Converter<User, UserCommand> {
+    private final RoleToRoleCommand roleToRoleCommand;
+
+    public UserToUserCommand(RoleToRoleCommand roleToRoleCommand) {
+        this.roleToRoleCommand = roleToRoleCommand;
+    }
 
     @Synchronized
     @Nullable
@@ -22,6 +27,8 @@ public class UserToUserCommand implements Converter<User, UserCommand> {
         user.setId(source.getId());
         user.setUsername(source.getUsername());
         user.setPassword(source.getPassword());
+        user.setEmail(source.getEmail());
+        user.setRole(roleToRoleCommand.convert(source.getRole()));
 
         return user;
     }
