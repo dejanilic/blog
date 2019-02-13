@@ -53,5 +53,15 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         superAdmin.setRole(role);
 
         userRepositorium.save(superAdmin);
+
+        User editor = new User();
+        editor.setUsername("editor");
+        editor.setPassword("editor");
+
+        Role role2 = roleRepositorium.getRoleByPosition(Position.EDITOR).orElse(null);
+
+        editor.setRole(role2);
+
+        userRepositorium.save(editor);
     }
 }
