@@ -59,6 +59,18 @@ public class UserService implements IUser {
         return "";
     }
 
+    @Override
+    public void saveUser(UserCommand userCommand) {
+        User detachedUser = userCommandToUser.convert(userCommand);
+        if (!exists(detachedUser)) {
+            //userRepositorium.save(detachedUser);
+            System.out.println(detachedUser.getRole().getId() + " " + detachedUser.getRole().getPosition() + detachedUser.getUsername());
+            System.out.println("User saved!");
+        } else {
+            System.out.println("Exists. User not saved.");
+        }
+    }
+
     private Optional<User> findByUsernameAndPassword(User user) {
         return userRepositorium.findByUsernameAndPassword(user.getUsername(), user.getPassword());
     }
