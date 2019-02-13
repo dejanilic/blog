@@ -33,6 +33,6 @@ public class UserController {
 
         // logika za prikaz stranica
         String menu = userService.validate(command);
-
+        System.out.println(menu.toUpperCase());
     }
 }
