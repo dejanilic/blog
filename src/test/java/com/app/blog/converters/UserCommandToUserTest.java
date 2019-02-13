@@ -16,7 +16,7 @@ public class UserCommandToUserTest {
 
     @Before
     public void setUp() throws Exception {
-        converter = new UserCommandToUser();
+        converter = new UserCommandToUser(new RoleCommandToRole());
     }
 
     @Test
