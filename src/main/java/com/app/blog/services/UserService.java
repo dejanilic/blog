@@ -70,8 +70,4 @@ public class UserService implements IUser {
             System.out.println("Exists. User not saved.");
         }
     }
-
-    private Optional<User> findByUsernameAndPassword(User user) {
-        return userRepositorium.findByUsernameAndPassword(user.getUsername(), user.getPassword());
-    }
 }
