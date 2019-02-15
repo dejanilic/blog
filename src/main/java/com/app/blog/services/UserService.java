@@ -5,12 +5,14 @@ import com.app.blog.converters.UserCommandToUser;
 import com.app.blog.converters.UserToUserCommand;
 import com.app.blog.models.User;
 import com.app.blog.repositories.UserRepositorium;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+@Slf4j
 @Service
 public class UserService implements IUser {
     private final UserRepositorium userRepositorium;
@@ -25,6 +27,7 @@ public class UserService implements IUser {
 
     @Override
     public Set<User> getUsers() {
+        log.info("getting all users");
         Set<User> users = new HashSet<>();
         userRepositorium.findAll().iterator().forEachRemaining(users::add);
 
@@ -37,11 +40,12 @@ public class UserService implements IUser {
             return false;
         }
 
-        return true;
+        return false;
     }
 
     @Override
     public String validate(UserCommand userCommand) {
+        log.info("validating user");
         User detachedUser = userCommandToUser.convert(userCommand);
         if (exists(detachedUser)) {
             Optional<User> user = findByUsernameAndPassword(detachedUser);
@@ -61,6 +65,7 @@ public class UserService implements IUser {
 
     @Override
     public void saveUser(UserCommand userCommand) {
+        log.info("saving user");
         User detachedUser = userCommandToUser.convert(userCommand);
         if (!exists(detachedUser)) {
             //userRepositorium.save(detachedUser);
