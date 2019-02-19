@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -26,11 +27,12 @@ public class UserController {
 
     @RequestMapping(value = {"", "/", "/login"}, method = RequestMethod.GET)
     public String showLoginPage(Model model) {
+        log.info("showing login page");
         model.addAttribute("user", new UserCommand());
         return "login";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @RequestMapping(value = {"/register", "/reg"}, method = RequestMethod.GET)
     public String showRegisterPage(Model model) {
         model.addAttribute("user", new UserCommand());
         model.addAttribute("role", roleService.getAllRoles());
@@ -44,11 +46,16 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @RequestMapping(value = "user", method = RequestMethod.POST)
-    public void login(@Valid @ModelAttribute("user") UserCommand command, BindingResult result) {
-        // provera za formu
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public String login(@Valid @ModelAttribute("user") UserCommand command, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            result.getAllErrors().forEach(objectError -> {
+                log.info(objectError.toString());
+            });
+            return "login";
+        }
 
-        // logika za prikaz stranica
+        log.info("logging user");
         String menu = userService.validate(command);
         System.out.println(menu.toUpperCase());
     }
