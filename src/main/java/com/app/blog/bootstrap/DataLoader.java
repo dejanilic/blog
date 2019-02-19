@@ -6,6 +6,9 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 
 @Component
@@ -47,21 +50,22 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         User superAdmin = new User();
         superAdmin.setUsername("admin");
         superAdmin.setPassword("admin");
+        superAdmin.setCreatedBy("program");
+
+        DateFormat dateFormatDateCreated = new SimpleDateFormat("MM/dd/yyyy");
+        Date dateCreated = new Date();
+        superAdmin.setDateCreated(dateFormatDateCreated.format(dateCreated));
+
+        DateFormat dateFormatDateModified = new SimpleDateFormat("MM/dd/yyyy");
+        Date dateModified = new Date();
+        superAdmin.setDateModified(dateFormatDateModified.format(dateModified));
+
+        superAdmin.setEmail("mail@mail.com");
+        superAdmin.setModifiedBy("program");
 
         Role role = roleRepositorium.getRoleByPosition(Position.SUPER_ADMIN).orElse(null);
-
         superAdmin.setRole(role);
 
         userRepositorium.save(superAdmin);
-
-        User editor = new User();
-        editor.setUsername("editor");
-        editor.setPassword("editor");
-
-        Role role2 = roleRepositorium.getRoleByPosition(Position.EDITOR).orElse(null);
-
-        editor.setRole(role2);
-
-        userRepositorium.save(editor);
     }
 }
