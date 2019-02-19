@@ -1,8 +1,11 @@
 package com.app.blog.models;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ManyToAny;
+import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -24,6 +27,9 @@ public class User {
     private String dateModified;
     private String modifiedBy;
 
+    @Transient
+    private Position position;
+
     @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private Set<Blog> blogs = new HashSet<>();
 
@@ -33,7 +39,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Comment> comments = new HashSet<Comment>();
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
 }
