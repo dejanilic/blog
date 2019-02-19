@@ -5,5 +5,5 @@ import com.app.blog.models.Role;
 import java.util.Set;
 
 public interface IRole {
-    Set<Role> getAllRoles();
+    Set<Role> getRoles();
 }
