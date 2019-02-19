@@ -9,5 +9,5 @@ public interface IUser {
     Set<User> getUsers();
     Boolean exists(User user);
     String validate(UserCommand userCommand);
-    void saveUser(UserCommand userCommand);
+    UserCommand saveUser(UserCommand userCommand);
 }
