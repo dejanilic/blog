@@ -34,16 +34,29 @@ public class UserController {
 
     @RequestMapping(value = {"/register", "/reg"}, method = RequestMethod.GET)
     public String showRegisterPage(Model model) {
+        log.info("showing register page");
         model.addAttribute("user", new UserCommand());
-        model.addAttribute("role", roleService.getAllRoles());
+        model.addAttribute("role", roleService.getRoles());
         return "register";
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String saveUser(@Valid @ModelAttribute("login") UserCommand command, BindingResult result) {
-        // check binding result
-        userService.saveUser(command);
-        return "redirect:/login";
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String saveUser(@Valid @ModelAttribute("user") UserCommand command, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            result.getAllErrors().forEach(objectError -> {
+                log.info(objectError.toString());
+            });
+            return "register";
+        }
+
+        log.info("calling saveUser method");
+        UserCommand userCommand = userService.saveUser(command);
+        if(userCommand == null) {
+            redirectAttributes.addFlashAttribute("issaved", false);
+            return "redirect:/register";
+        }
+
+        return "register-success";
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
@@ -57,6 +70,12 @@ public class UserController {
 
         log.info("logging user");
         String menu = userService.validate(command);
-        System.out.println(menu.toUpperCase());
+
+        if (menu.equals("nonexistinguser")) {
+            redirectAttributes.addFlashAttribute("menu", "nonexistinguser");
+            return "redirect:/";
+        }
+
+        return menu;
     }
 }
