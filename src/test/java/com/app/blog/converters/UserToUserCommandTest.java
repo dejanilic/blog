@@ -1,6 +1,7 @@
 package com.app.blog.converters;
 
 import com.app.blog.commands.UserCommand;
+import com.app.blog.models.Position;
 import com.app.blog.models.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,12 +12,14 @@ public class UserToUserCommandTest {
     private static final Long ID_VALUE = new Long(1L);
     private static final String USERNAME = "admin";
     private static  final String PASSWORD = "admin";
+    private static final String EMAIL = "mail@mail.com";
+    private static final Position POSITION = Position.ADMINISTRATOR;
 
     private UserToUserCommand converter;
 
     @Before
     public void setUp() throws Exception {
-        converter = new UserToUserCommand(new RoleToRoleCommand());
+        converter = new UserToUserCommand();
     }
 
     @Test
@@ -36,6 +39,8 @@ public class UserToUserCommandTest {
         user.setId(ID_VALUE);
         user.setUsername(USERNAME);
         user.setPassword(PASSWORD);
+        user.setEmail(EMAIL);
+        user.setPosition(POSITION);
 
         // when
         UserCommand userCommand = converter.convert(user);
@@ -44,5 +49,7 @@ public class UserToUserCommandTest {
         assertEquals(ID_VALUE, userCommand.getId());
         assertEquals(USERNAME, userCommand.getUsername());
         assertEquals(PASSWORD, userCommand.getPassword());
+        assertEquals(EMAIL, userCommand.getEmail());
+        assertEquals(POSITION, userCommand.getPosition());
     }
 }
