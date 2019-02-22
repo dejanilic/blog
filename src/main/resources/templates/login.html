@@ -22,7 +22,11 @@
                         <p>Please Correct Errors Below</p>
                     </div>
 
-                    <div th:if="${menu == 'nonexistinguser'}" class="alert alert-danger">
+                    <div class="alert alert-success" th:if="${issaved == true}">
+                        <p>User has been successfully registered</p>
+                    </div>
+
+                    <div class="alert alert-danger" th:if="${menu == 'nonexistinguser'}">
                         <p>User does not exist</p>
                     </div>
 
@@ -60,7 +64,6 @@
     <script>
         document.getElementById("email").value = "mail@mail.com";
         function init() {
-            // Clear forms here
             document.getElementById("username").value = "";
         }
         window.onload = init;
