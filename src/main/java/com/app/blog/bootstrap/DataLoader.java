@@ -63,7 +63,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         superAdmin.setEmail("mail@mail.com");
         superAdmin.setModifiedBy("program");
 
-        Role role = roleRepositorium.getRoleByPosition(Position.SUPER_ADMIN).orElse(null);
+        Role role = roleRepositorium.getRoleByPosition(Position.ADMINISTRATOR).orElse(null);
         superAdmin.setRole(role);
 
         userRepositorium.save(superAdmin);
