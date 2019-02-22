@@ -50,6 +50,7 @@ public class UserService implements IUser {
     }
 
     @Override
+    @Transactional
     public String validate(UserCommand userCommand) {
         log.info("validating user");
         User detachedUser = userCommandToUser.convert(userCommand);
@@ -59,7 +60,7 @@ public class UserService implements IUser {
                 case SUPER_ADMIN:
                     return "Super Admin";
                 case ADMINISTRATOR:
-                    return "Administrator";
+                    return "redirect:/dashboard/user/" + user.get().getId();
                 case AUTHOR:
                     return "Author";
                 case EDITOR:
