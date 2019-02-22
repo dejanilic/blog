@@ -1,10 +1,7 @@
 package com.app.blog.services;
 
-import com.app.blog.commands.UserCommand;
 import com.app.blog.converters.UserCommandToUser;
 import com.app.blog.converters.UserToUserCommand;
-import com.app.blog.models.Position;
-import com.app.blog.models.Role;
 import com.app.blog.models.User;
 import com.app.blog.repositories.RoleRepositorium;
 import com.app.blog.repositories.UserRepositorium;
