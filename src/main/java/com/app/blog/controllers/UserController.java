@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 public class UserController {
     private final UserService userService;
     private final RoleService roleService;
+    private static Boolean isSaved = false;
 
     public UserController(UserService userService, RoleService roleService) {
         this.userService = userService;
@@ -29,6 +31,11 @@ public class UserController {
     public String showLoginPage(Model model) {
         log.info("showing login page");
         model.addAttribute("user", new UserCommand());
+        if (isSaved.equals(true)) {
+            model.addAttribute("issaved", true);
+            isSaved = false;
+        }
+
         return "login";
     }
 
@@ -38,6 +45,13 @@ public class UserController {
         model.addAttribute("user", new UserCommand());
         model.addAttribute("role", roleService.getRoles());
         return "register";
+    }
+
+    @RequestMapping(value = "/dashboard/user/{id}", method = RequestMethod.GET)
+    public String showDashboardPage(@PathVariable String id, Model model) {
+        log.info("showing dashboard page");
+        model.addAttribute("id", id);
+        return "administrator/dashboard";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
@@ -56,7 +70,8 @@ public class UserController {
             return "redirect:/register";
         }
 
-        return "register-success";
+        isSaved = true;
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
@@ -73,7 +88,7 @@ public class UserController {
 
         if (menu.equals("nonexistinguser")) {
             redirectAttributes.addFlashAttribute("menu", "nonexistinguser");
-            return "redirect:/";
+            return "redirect:/login";
         }
 
         return menu;
