@@ -2,14 +2,14 @@ package com.app.blog.controllers;
 
 import com.app.blog.commands.PostCommand;
 import com.app.blog.services.PostService;
+import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
@@ -46,7 +46,7 @@ public class PostController {
     }
 
     @RequestMapping(value = "/dashboard/user/{id}/post/show", method = RequestMethod.POST)
-    public String savePost(@PathVariable String id, @Valid @ModelAttribute("post") PostCommand postCommand, BindingResult result) {
+    public String savePost(@PathVariable String id, @Valid @ModelAttribute("post") PostCommand postCommand, BindingResult result) throws NotFoundException {
         log.info("showing posts page");
         if (result.hasErrors()) {
             result.getAllErrors().forEach(objectError -> {
@@ -61,7 +61,7 @@ public class PostController {
     }
 
     @RequestMapping(value = "/dashboard/user/{id}/post/{postid}/edit", method = RequestMethod.GET)
-    public String editPost(@PathVariable String id, @PathVariable String postid, Model model) {
+    public String editPost(@PathVariable String id, @PathVariable String postid, Model model) throws NotFoundException {
         log.info("editing post");
         model.addAttribute("post", postService.findCommandById(Long.valueOf(postid)));
         return "administrator/post/new";
@@ -72,5 +72,15 @@ public class PostController {
         log.info("deleting post");
         postService.deleteById(Long.valueOf(postid));
         return "redirect:/dashboard/user/" + id + "/post/show";
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFound(Exception exception) {
+        log.error(exception.getMessage());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("exception", exception);
+        modelAndView.setViewName("error/404error");
+        return modelAndView;
     }
 }

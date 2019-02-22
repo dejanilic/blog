@@ -7,6 +7,7 @@ import com.app.blog.models.Post;
 import com.app.blog.models.User;
 import com.app.blog.repositories.PostRepositorium;
 import com.app.blog.repositories.UserRepositorium;
+import javassist.NotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -63,7 +64,7 @@ public class PostServiceTest {
     }
 
     @Test
-    public void findById() {
+    public void findById() throws NotFoundException {
         // given
         Post post = new Post();
         post.setId(1L);

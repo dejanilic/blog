@@ -7,6 +7,7 @@ import com.app.blog.models.Post;
 import com.app.blog.models.User;
 import com.app.blog.repositories.PostRepositorium;
 import com.app.blog.repositories.UserRepositorium;
+import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,12 +44,11 @@ public class PostService implements IPost{
 
     @Transactional
     @Override
-    public PostCommand savePost(PostCommand postCommand, String id) {
+    public PostCommand savePost(PostCommand postCommand, String id) throws NotFoundException {
         log.info("saving post");
         User user = userRepositorium.findById(Long.valueOf(id)).orElse(null);
         if (user == null) {
-            log.error("Error, user does not exist.");
-            return null;
+            throw new NotFoundException("User not found for ID value: " + id);
         }
 
         Post detachedPost = postCommandToPost.convert(postCommand);
@@ -70,14 +70,10 @@ public class PostService implements IPost{
     }
 
     @Override
-    public Post findById(Long l) {
+    public Post findById(Long l) throws NotFoundException {
         Optional<Post> postOptional = postRepositorium.findById(l);
         if (!postOptional.isPresent()) {
-            try {
-                throw new Exception("User does not exist");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            throw new NotFoundException("User not found for ID value:" + l);
         }
 
         return postOptional.get();
@@ -85,7 +81,7 @@ public class PostService implements IPost{
 
     @Transactional
     @Override
-    public PostCommand findCommandById(Long l) {
+    public PostCommand findCommandById(Long l) throws NotFoundException {
         return postToPostCommand.convert(findById(l));
     }
 
