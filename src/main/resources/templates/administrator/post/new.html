@@ -15,7 +15,9 @@
         <div class="col-2 min-vh-100" style="border: 1px solid black; background-color: #e2e2e2">
 
             <a class="btn btn-primary btn-lg btn-block" href="#" role="button" style="margin-top: 0.5rem;">Site</a><br>
-            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id}}" role="button"><i class="fas fa-home"></i>Dashboard</a><br>            <a class="btn btn-primary btn-lg btn-block" href="#" role="button"><i class="far fa-file"></i>Posts</a><br>
+            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id}}" role="button"><i class="fas fa-home"></i>Dashboard</a><br>
+            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id} + '/post/show'}" role="button"><i class="far fa-file"></i>Posts</a><br>
+            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id} + '/blog/show'}" role="button"><i class="far fa-file"></i>Blogs</a><br>
             <a class="btn btn-primary btn-lg btn-block" href="#" role="button"><i class="far fa-comments"></i>Comments</a><br>
             <a class="btn btn-primary btn-lg btn-block" href="#" role="button"><i class="far fa-user"></i>Users</a>
 
