@@ -1,6 +1,7 @@
 package com.app.blog.controllers;
 
 import com.app.blog.commands.PostCommand;
+import com.app.blog.services.BlogService;
 import com.app.blog.services.PostService;
 import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -17,11 +19,13 @@ import javax.validation.Valid;
 @Controller
 public class PostController {
     private final PostService postService;
+    private final BlogService blogService;
 
     private static Boolean isSaved = false;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, BlogService blogService) {
         this.postService = postService;
+        this.blogService = blogService;
     }
 
     @RequestMapping(value = "/dashboard/user/{id}/post/show", method = RequestMethod.GET)
@@ -29,6 +33,8 @@ public class PostController {
         log.info("showing posts page");
         model.addAttribute("posts", postService.getPosts());
         model.addAttribute("id", id);
+        model.addAttribute("blogs", blogService.getBlogs());
+        model.addAttribute("selectedblog", BlogController.currentBlog);
         if (isSaved.equals(true)) {
             model.addAttribute("issaved", true);
             isSaved = false;
@@ -68,9 +74,10 @@ public class PostController {
     }
 
     @RequestMapping(value = "/dashboard/user/{id}/post/{postid}/delete", method = RequestMethod.GET)
-    public String deletePost(@PathVariable String id, @PathVariable String postid) {
+    public String deletePost(@PathVariable String id, @PathVariable String postid, RedirectAttributes redirectAttributes) {
         log.info("deleting post");
         postService.deleteById(Long.valueOf(postid));
+        redirectAttributes.addFlashAttribute("deleted", true);
         return "redirect:/dashboard/user/" + id + "/post/show";
     }
 
