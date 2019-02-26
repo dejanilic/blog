@@ -67,19 +67,25 @@
                     <label class="col-sm-2 col-form-label">Role</label>
                     <div class="col-sm-10">
                         <select class="form-control" th:field="*{position}">
+                            <option value="" selected hidden>Choose here</option>
                             <option th:each="difficultyValue : ${T(com.app.blog.models.Position).values()}"
                                     th:value="${difficultyValue.name()}"
                                     th:text="${difficultyValue.name()}"
                             >value
                             </option>
                         </select>
+                        <span class="help-block" th:if="${#fields.hasErrors('position')}">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('position')}" th:text="${err}"/>
+                            </ul>
+                        </span>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Register</button>
             </form>
         </div>
     </div>
-</div> 
+</div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
