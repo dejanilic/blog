@@ -5,6 +5,7 @@ import com.app.blog.converters.PostCommandToPost;
 import com.app.blog.converters.PostToPostCommand;
 import com.app.blog.models.Post;
 import com.app.blog.models.User;
+import com.app.blog.repositories.BlogRepositorium;
 import com.app.blog.repositories.PostRepositorium;
 import com.app.blog.repositories.UserRepositorium;
 import javassist.NotFoundException;
@@ -32,6 +33,9 @@ public class PostServiceTest {
     private UserRepositorium userRepositorium;
 
     @Mock
+    private BlogRepositorium blogRepositorium;
+
+    @Mock
     private PostCommandToPost postCommandToPost;
 
     @Mock
@@ -43,7 +47,7 @@ public class PostServiceTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        postService = new PostService(postRepositorium, userRepositorium, postCommandToPost, postToPostCommand);
+        postService = new PostService(postRepositorium, userRepositorium, blogRepositorium, postCommandToPost, postToPostCommand);
     }
 
     @Test

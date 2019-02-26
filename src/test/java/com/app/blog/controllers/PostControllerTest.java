@@ -1,6 +1,7 @@
 package com.app.blog.controllers;
 
 import com.app.blog.commands.PostCommand;
+import com.app.blog.services.BlogService;
 import com.app.blog.services.PostService;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +27,9 @@ public class PostControllerTest {
     @Mock
     private PostService postService;
 
+    @Mock
+    private BlogService blogService;
+
     private PostController postController;
 
     private MockMvc mockMvc;
@@ -34,7 +38,7 @@ public class PostControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        postController = new PostController(postService);
+        postController = new PostController(postService, blogService);
         mockMvc = MockMvcBuilders.standaloneSetup(postController).build();
     }
 
