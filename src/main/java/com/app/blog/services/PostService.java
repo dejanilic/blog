@@ -1,10 +1,13 @@
 package com.app.blog.services;
 
 import com.app.blog.commands.PostCommand;
+import com.app.blog.controllers.BlogController;
 import com.app.blog.converters.PostCommandToPost;
 import com.app.blog.converters.PostToPostCommand;
+import com.app.blog.models.Blog;
 import com.app.blog.models.Post;
 import com.app.blog.models.User;
+import com.app.blog.repositories.BlogRepositorium;
 import com.app.blog.repositories.PostRepositorium;
 import com.app.blog.repositories.UserRepositorium;
 import javassist.NotFoundException;
@@ -24,12 +27,14 @@ import java.util.Set;
 public class PostService implements IPost{
     private final PostRepositorium postRepositorium;
     private final UserRepositorium userRepositorium;
+    private final BlogRepositorium blogRepositorium;
     private final PostCommandToPost postCommandToPost;
     private final PostToPostCommand postToPostCommand;
 
-    public PostService(PostRepositorium postRepositorium, UserRepositorium userRepositorium, PostCommandToPost postCommandToPost, PostToPostCommand postToPostCommand) {
+    public PostService(PostRepositorium postRepositorium, UserRepositorium userRepositorium, BlogRepositorium blogRepositorium, PostCommandToPost postCommandToPost, PostToPostCommand postToPostCommand) {
         this.postRepositorium = postRepositorium;
         this.userRepositorium = userRepositorium;
+        this.blogRepositorium = blogRepositorium;
         this.postCommandToPost = postCommandToPost;
         this.postToPostCommand = postToPostCommand;
     }
@@ -52,7 +57,15 @@ public class PostService implements IPost{
         }
 
         Post detachedPost = postCommandToPost.convert(postCommand);
+        Blog blog = blogRepositorium.findByTitle(BlogController.currentBlog.toString()).orElse(null);
+        if (blog == null) {
+            log.error("Add blogs in order to add a new post!");
+            return new PostCommand();
+        }
+
         detachedPost.setUser(user);
+        detachedPost.setBlog(blog);
+        blog.getPosts().add(detachedPost);
         detachedPost.setCreatedBy(user.getUsername());
 
         DateFormat dateFormatDateCreated = new SimpleDateFormat("MM/dd/yyyy");
@@ -65,6 +78,7 @@ public class PostService implements IPost{
         detachedPost.setModifiedBy(user.getUsername());
 
         postRepositorium.save(detachedPost);
+        blogRepositorium.save(blog);
 
         return postCommand;
     }
