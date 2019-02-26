@@ -17,20 +17,37 @@
         <div class="col-2 min-vh-100" style="border: 1px solid black; background-color: #e2e2e2">
 
             <a class="btn btn-primary btn-lg btn-block" href="#" role="button" style="margin-top: 0.5rem;">Site</a><br>
-            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id}}" role="button"><i class="fas fa-home"></i>Dashboard</a><br>            <a class="btn btn-primary btn-lg btn-block" href="#" role="button"><i class="far fa-file"></i>Posts</a><br>
+            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id}}" role="button"><i class="fas fa-home"></i>Dashboard</a><br>
+            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id} + '/post/show'}" role="button"><i class="far fa-file"></i>Posts</a><br>
+            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id} + '/blog/show'}" role="button"><i class="far fa-file"></i>Blogs</a><br>
             <a class="btn btn-primary btn-lg btn-block" href="#" role="button"><i class="far fa-comments"></i>Comments</a><br>
             <a class="btn btn-primary btn-lg btn-block" href="#" role="button"><i class="far fa-user"></i>Users</a>
 
         </div>
         <div class="col-10" style="border: 1px solid black;">
-            <a class="btn btn-primary btn-lg" href="#" th:href="@{'/dashboard/user/' + ${id} + '/post/new'}" role="button" style="margin-top: 0.5rem;">Add new post</a><br>
+            <a class="btn btn-primary btn-lg" href="#" th:href="@{'/dashboard/user/' + ${id} + '/post/new'}" th:if="${not #lists.isEmpty(blogs) and selectedblog != ''}" role="button" style="margin-top: 0.5rem;">Add new post</a><br>
+            <a class="btn btn-primary btn-lg disabled" aria-disabled="true" href="#" th:href="@{'/dashboard/user/' + ${id} + '/post/new'}" th:if="${#lists.isEmpty(blogs) or selectedblog == ''}" role="button" style="margin-top: 0.5rem;">Add new post</a><br>
 
-            <div class="alert alert-success" th:if="${issaved == true}">
-                <p>Post has been successfully saved</p>
+            <div th:if="${not #lists.isEmpty(blogs)}">
+                <div class="alert alert-success" th:if="${issaved == true}">
+                    <p>Post has been successfully saved</p>
+                </div>
+
+                <div class="alert alert-info" th:if="${#lists.isEmpty(posts) and selectedblog != ''}">
+                    <p>Post list is empty. Add a post to display it</p>
+                </div>
             </div>
 
-            <div class="alert alert-info" th:if="${#lists.isEmpty(posts)}">
-                <p>Post list is empty. Add a post to display it</p>
+            <div class="alert alert-info" th:if="${#lists.isEmpty(blogs)}">
+                <p>Blog list is empty. Add a blog first</p>
+            </div>
+
+            <div class="alert alert-info" th:if="${not #lists.isEmpty(blogs) and selectedblog == ''}">
+                <p>Select a blog in order to add a new post</p>
+            </div>
+
+            <div class="alert alert-success" th:if="${deleted == true}">
+                <p>Post has been successfully deleted</p>
             </div>
 
             <div class="table-responsive" th:if="${not #lists.isEmpty(posts)}">
