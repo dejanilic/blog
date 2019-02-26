@@ -52,7 +52,10 @@
                         </span>
                     </div>
                     <div class="form-group" type="hidden">
-                        <input type="hidden" class="form-control" th:field="*{email}" id="email" placeholder="email" th:errorclass="has-error">
+                        <input type="hidden" class="form-control" th:field="*{email}" id="email" placeholder="email">
+                    </div>
+                    <div class="form-group" type="hidden">
+                        <input type="hidden" class="form-control" th:field="*{position}" id="position">
                     </div>
                     <button type="submit" class="btn btn-primary">Login</button>
                     <a th:href="@{'/register'}"><button type="button" class="btn btn-primary">Register</button></a>
@@ -63,6 +66,7 @@
 
     <script>
         document.getElementById("email").value = "mail@mail.com";
+        document.getElementById("position").value = "ADMINISTRATOR";
         function init() {
             document.getElementById("username").value = "";
         }
