@@ -48,8 +48,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     private void loadUsers() {
         User superAdmin = new User();
-        superAdmin.setUsername("admin");
-        superAdmin.setPassword("admin");
+        superAdmin.setUsername("a");
+        superAdmin.setPassword("a");
         superAdmin.setCreatedBy("program");
 
         DateFormat dateFormatDateCreated = new SimpleDateFormat("MM/dd/yyyy");
