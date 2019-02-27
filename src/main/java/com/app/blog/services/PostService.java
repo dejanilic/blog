@@ -87,7 +87,7 @@ public class PostService implements IPost{
     public Post findById(Long l) throws NotFoundException {
         Optional<Post> postOptional = postRepositorium.findById(l);
         if (!postOptional.isPresent()) {
-            throw new NotFoundException("User not found for ID value:" + l);
+            throw new NotFoundException("Post not found for ID value:" + l);
         }
 
         return postOptional.get();
