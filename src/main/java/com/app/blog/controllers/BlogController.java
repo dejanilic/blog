@@ -70,6 +70,7 @@ public class BlogController {
     @RequestMapping(value = "/dashboard/user/{id}/blog/{blogid}/edit", method = RequestMethod.GET)
     public String editBlog(@PathVariable String id, @PathVariable String blogid, Model model) throws NotFoundException {
         log.info("editing blog");
+        currentBlog.setLength(0);
         model.addAttribute("blog", blogService.findCommandById(Long.valueOf(blogid)));
         return "administrator/blog/new";
     }
@@ -83,10 +84,10 @@ public class BlogController {
         return "redirect:/dashboard/user/" + id + "/blog/show";
     }
 
-    @RequestMapping(value="/dashboard/user/{id}/blog/changeblog", method=RequestMethod.POST)
-    public String changeselectedBlog(@RequestParam("selectedblog") String blog, @PathVariable String id, RedirectAttributes redirectAttributes) {
+    @RequestMapping(value="/dashboard/user/{id}/blog/changeblog/{value}", method=RequestMethod.GET)
+    public String changeselectedBlog(@PathVariable String id, @PathVariable String value, RedirectAttributes redirectAttributes) {
         currentBlog.setLength(0);
-        currentBlog.append(blog);
+        currentBlog.append(value);
         redirectAttributes.addFlashAttribute("changed", true);
         return "redirect:/dashboard/user/" + id + "/blog/show";
     }
