@@ -23,18 +23,8 @@
 
         </div>
         <div class="col-10" style="border: 1px solid black;">
+
             <a class="btn btn-primary btn-lg" href="#" th:href="@{'/dashboard/user/' + ${id} + '/blog/new'}" role="button" style="margin-top: 0.5rem;">Add new blog</a>
-            <form class="form-inline" th:action="@{'/dashboard/user/' + ${id} + '/blog/changeblog'}" method="post" >
-                <select class="form-control" name='selectedblog' id="bloglist">
-                    <option th:each="blog : ${blogs}"
-                            th:value="${blog.title}"
-                            th:text="${blog.title}"
-                    >value
-                    </option>
-                </select>
-                <button type="submit" class="btn btn-primary" th:if="${not #lists.isEmpty(blogs)}">Change</button>
-                <button type="button" class="btn btn-primary disabled" id="dbutton" disabled="disabled" th:if="${#lists.isEmpty(blogs)}">Change</button>
-            </form>
 
             <div class="alert alert-info" th:if="${#lists.isEmpty(blogs)}">
                 <p>Blog list is empty. Add a blog to display it</p>
@@ -62,6 +52,7 @@
                     <tr>
                         <th>Title</th>
                         <th>Date created</th>
+                        <th>Choose</th>
                         <th>Edit</th>
                         <th>Remove</th>
                     </tr>
@@ -69,11 +60,16 @@
                     <tr th:each="blog : ${blogs}">
                         <td th:text="${blog.title}"></td>
                         <td th:text="${blog.dateCreated}"></td>
+                        <td>
+                            <a href="#" th:if="${blog.title != currentblog}" th:href="@{'/dashboard/user/' + ${id} + '/blog/changeblog/' + ${blog.title}}">Choose</a>
+                            <p th:if="${blog.title == currentblog}">Choosen</p>
+                        </td>
                         <td><a href="#" th:href="@{'/dashboard/user/' + ${id} + '/blog/' + ${blog.id} + '/edit'}">Edit</a></td>
                         <td><a href="#" th:href="@{'/dashboard/user/' + ${id} + '/blog/' + ${blog.id} + '/delete'}">Remove</a></td>
                     </tr>
                 </table>
             </div>
+
         </div>
     </div>
 </div>
@@ -93,6 +89,7 @@
 </script>
 
 <script>
+    // sort the table
     function init() {
         var table, rows, switching, i, x, y, shouldSwitch;
         table = document.getElementById("table");
