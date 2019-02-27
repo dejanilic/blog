@@ -14,11 +14,21 @@ public class ControllerExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
-    public ModelAndView handleNotFound(Exception exception) {
-        log.error(exception.getMessage());
+    public ModelAndView handleNotFound(Exception notFound) {
+        log.error(notFound.getMessage());
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("exception", exception);
+        modelAndView.addObject("exception", notFound);
         modelAndView.setViewName("error/404error");
+        return modelAndView;
+    }
+
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleNumberFormat(Exception numberFormat) {
+        log.error(numberFormat.getMessage());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("exception", numberFormat);
+        modelAndView.setViewName("error/406error");
         return modelAndView;
     }
 }
