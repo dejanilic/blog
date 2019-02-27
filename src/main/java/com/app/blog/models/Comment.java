@@ -21,6 +21,7 @@ public class Comment {
     private String content;
     private Boolean approved = false;
     private String dateCreated;
+    private String createdBy;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
