@@ -81,13 +81,5 @@ public class PostController {
         return "redirect:/dashboard/user/" + id + "/post/show";
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NotFoundException.class)
-    public ModelAndView handleNotFound(Exception exception) {
-        log.error(exception.getMessage());
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("exception", exception);
-        modelAndView.setViewName("error/404error");
-        return modelAndView;
-    }
+
 }
