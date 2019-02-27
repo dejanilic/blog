@@ -30,7 +30,7 @@ public class User {
     @Transient
     private Position position;
 
-    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "users", cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
     private Set<Blog> blogs = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
