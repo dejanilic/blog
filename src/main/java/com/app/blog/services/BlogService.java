@@ -56,6 +56,7 @@ public class BlogService implements IBlog {
 
         blogRepositorium.save(detachedBlog);
         userRepositorium.save(user);
+
         return blogCommand;
     }
 
