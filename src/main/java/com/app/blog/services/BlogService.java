@@ -44,7 +44,11 @@ public class BlogService implements IBlog {
             log.info("blog already exists, saving failed");
             return null;
         }
-        User user = userRepositorium.findById(Long.valueOf(id)).orElse(new User());
+        User user = userRepositorium.findById(Long.valueOf(id)).orElse(null);
+        if (user == null) {
+            throw new NotFoundException("User not found for ID value: " + id);
+        }
+
         Blog detachedBlog = blogCommandToBlog.convert(blogCommand);
 
         user.getBlogs().add(detachedBlog);
