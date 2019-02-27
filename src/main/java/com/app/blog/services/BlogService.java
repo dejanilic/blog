@@ -38,6 +38,9 @@ public class BlogService implements IBlog {
     @Transactional
     @Override
     public BlogCommand saveBlog(BlogCommand blogCommand, String id) throws Exception {
+        if (!isNumber(id)) {
+            throw new NumberFormatException(id + " is not a number.");
+        }
         log.info("saving blog");
         Optional<Blog> optionalBlog = blogRepositorium.findByTitle(blogCommand.getTitle());
         if (optionalBlog.isPresent()) {
@@ -93,5 +96,16 @@ public class BlogService implements IBlog {
     @Override
     public BlogCommand findCommandById(Long l) throws NotFoundException {
         return blogToBlogCommand.convert(findById(l));
+    }
+
+    private Boolean isNumber(String value) {
+        try {
+            double d = Double.parseDouble(value);
+        }
+        catch(NumberFormatException e) {
+            return false;
+        }
+
+        return true;
     }
 }
