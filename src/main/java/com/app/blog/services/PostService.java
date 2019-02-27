@@ -50,6 +50,9 @@ public class PostService implements IPost{
     @Transactional
     @Override
     public PostCommand savePost(PostCommand postCommand, String id) throws NotFoundException {
+        if (!isNumber(id)) {
+            throw new NumberFormatException(id + " is not a number.");
+        }
         log.info("saving post");
         User user = userRepositorium.findById(Long.valueOf(id)).orElse(null);
         if (user == null) {
@@ -102,5 +105,16 @@ public class PostService implements IPost{
     @Override
     public void deleteById(Long l) {
         postRepositorium.deleteById(l);
+    }
+
+    private Boolean isNumber(String value) {
+        try {
+            double d = Double.parseDouble(value);
+        }
+        catch(NumberFormatException e) {
+            return false;
+        }
+
+        return true;
     }
 }
