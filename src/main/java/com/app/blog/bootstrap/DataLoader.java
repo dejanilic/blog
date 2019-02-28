@@ -15,10 +15,16 @@ import java.util.Optional;
 public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     private final RoleRepositorium roleRepositorium;
     private final UserRepositorium userRepositorium;
+    private final BlogRepositorium blogRepositorium;
+    private final PostRepositorium postRepositorium;
+    private final CommentRepositorium commentRepositorium;
 
-    public DataLoader(RoleRepositorium roleRepositorium, UserRepositorium userRepositorium) {
+    public DataLoader(RoleRepositorium roleRepositorium, UserRepositorium userRepositorium, BlogRepositorium blogRepositorium, PostRepositorium postRepositorium, CommentRepositorium commentRepositorium) {
         this.roleRepositorium = roleRepositorium;
         this.userRepositorium = userRepositorium;
+        this.blogRepositorium = blogRepositorium;
+        this.postRepositorium = postRepositorium;
+        this.commentRepositorium = commentRepositorium;
     }
 
     @Override
@@ -67,5 +73,30 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         superAdmin.setRole(role);
 
         userRepositorium.save(superAdmin);
+
+        Blog blog = new Blog();
+        blog.setDateCreated("1.1.1");
+        blog.setTitle("blog 1");
+        blogRepositorium.save(blog);
+
+        Post post = new Post();
+        post.setTitle("post 1");
+        post.setContent("asd");
+        post.setDateCreated("1");
+        post.setDateModified("1");
+        post.setCreatedBy("admin");
+        post.setModifiedBy("admin");
+        post.setBlog(blog);
+        post.setUser(superAdmin);
+        postRepositorium.save(post);
+
+        Comment comment = new Comment();
+        comment.setContent("asd");
+        comment.setApproved(true);
+        comment.setCreatedBy("admin");
+        comment.setPost(post);
+        comment.setUser(superAdmin);
+        comment.setDateCreated("1");
+        commentRepositorium.save(comment);
     }
 }
