@@ -55,23 +55,6 @@ public class PostServiceTest {
     }
 
     @Test
-    public void getPosts() {
-        // given
-        Post post = new Post();
-        post.setId(1L);
-        Set<Post> postSet = new HashSet<>();
-        postSet.add(post);
-
-        // when
-        when(postService.getPosts()).thenReturn(postSet);
-        Set<Post> posts = postService.getPosts();
-
-        // then
-        assertEquals(1, posts.size());
-        verify(postRepositorium, times(1)).findAll();
-    }
-
-    @Test
     public void findById() throws NotFoundException {
         // given
         Post post = new Post();

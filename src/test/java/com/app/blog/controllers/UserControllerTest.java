@@ -73,8 +73,9 @@ public class UserControllerTest {
             .param("username", "some username")
             .param("password", "some password")
             .param("email", "email@email.com")
+            .param("position", "ADMINISTRATOR")
         )
-                .andExpect(status().isOk())
+                .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/login"));
     }
 
@@ -88,6 +89,7 @@ public class UserControllerTest {
                 .param("username", "some username")
                 .param("password", "some password")
                 .param("email", "email@email.com")
+                .param("position", "ADMINISTRATOR")
         )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/register"));
@@ -129,6 +131,7 @@ public class UserControllerTest {
                 .param("username", "some username")
                 .param("password", "some password")
                 .param("email", "email@email.com")
+                .param("position", "ADMINISTRATOR")
         )
                 .andExpect(status().isOk())
                 .andExpect(view().name("Administrator"));
