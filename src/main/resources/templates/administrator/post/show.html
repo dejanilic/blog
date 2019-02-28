@@ -20,7 +20,7 @@
             <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id}}" role="button"><i class="fas fa-home"></i>Dashboard</a><br>
             <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id} + '/post/show'}" role="button"><i class="far fa-file"></i>Posts</a><br>
             <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id} + '/blog/show'}" role="button"><i class="far fa-file"></i>Blogs</a><br>
-            <a class="btn btn-primary btn-lg btn-block" href="#" role="button"><i class="far fa-comments"></i>Comments</a><br>
+            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id} + '/comment/show'}" role="button"><i class="far fa-file"></i>Comments</a><br>
             <a class="btn btn-primary btn-lg btn-block" href="#" role="button"><i class="far fa-user"></i>Users</a>
 
         </div>
@@ -62,16 +62,6 @@
                         <th>Remove</th>
                     </tr>
                     </thead>
-                    <tr th:remove="all">
-                        <td>123</td>
-                        <td>Tasty Goodnees 1</td>
-                        <td><a href="#">View</a></td>
-                    </tr>
-                    <tr th:remove="all">
-                        <td>12333</td>
-                        <td>Tasty Goodnees 2</td>
-                        <td><a href="#">View</a></td>
-                    </tr>
                     <tr th:each="post : ${posts}">
                         <td th:text="${post.title}"></td>
                         <td th:text="${post.createdBy}"></td>

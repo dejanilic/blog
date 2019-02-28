@@ -18,7 +18,7 @@ public class BlogController {
     private final BlogService blogService;
 
     private static Boolean isSaved = false;
-    public static StringBuilder currentBlog = new StringBuilder("");
+    public static StringBuilder currentBlog = new StringBuilder("blog 1");
 
     public BlogController(BlogService blogService) {
         this.blogService = blogService;
@@ -30,12 +30,12 @@ public class BlogController {
         model.addAttribute("blogs", blogService.getBlogs());
         model.addAttribute("id", id);
         model.addAttribute("currentblog", currentBlog.toString());
-        System.out.println(currentBlog.toString());
         if (isSaved.equals(true)) {
             model.addAttribute("issaved", true);
             isSaved = false;
         }
 
+        //exists = false;
         return "administrator/blog/show";
     }
 

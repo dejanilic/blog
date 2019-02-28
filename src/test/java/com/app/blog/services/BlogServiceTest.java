@@ -7,6 +7,7 @@ import com.app.blog.models.Blog;
 import com.app.blog.models.Post;
 import com.app.blog.models.User;
 import com.app.blog.repositories.BlogRepositorium;
+import com.app.blog.repositories.CommentRepositorium;
 import com.app.blog.repositories.PostRepositorium;
 import com.app.blog.repositories.UserRepositorium;
 import javassist.NotFoundException;
@@ -39,6 +40,9 @@ public class BlogServiceTest {
     private PostRepositorium postRepositorium;
 
     @Mock
+    private CommentRepositorium commentRepositorium;
+
+    @Mock
     private BlogCommandToBlog blogCommandToBlog;
 
     @Mock
@@ -50,7 +54,7 @@ public class BlogServiceTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        blogService = new BlogService(blogRepositorium, userRepositorium, postRepositorium, blogCommandToBlog, blogToBlogCommand);
+        blogService = new BlogService(blogRepositorium, userRepositorium, postRepositorium, commentRepositorium, blogCommandToBlog, blogToBlogCommand);
     }
 
     @Test

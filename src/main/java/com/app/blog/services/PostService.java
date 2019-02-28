@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -44,7 +45,9 @@ public class PostService implements IPost{
         log.info("getting all posts");
         Set<Post> posts = new HashSet<>();
         postRepositorium.findAll().iterator().forEachRemaining(posts::add);
-        return posts;
+        return posts.stream()
+                .filter(post -> post.getBlog().getTitle().equals(BlogController.currentBlog.toString()))
+                .collect(Collectors.toSet());
     }
 
     @Transactional
@@ -68,7 +71,7 @@ public class PostService implements IPost{
 
         detachedPost.setUser(user);
         detachedPost.setBlog(blog);
-        blog.getPosts().add(detachedPost);
+        //blog.getPosts().add(detachedPost);
         detachedPost.setCreatedBy(user.getUsername());
 
         DateFormat dateFormatDateCreated = new SimpleDateFormat("MM/dd/yyyy");

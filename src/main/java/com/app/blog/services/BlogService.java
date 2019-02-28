@@ -4,9 +4,11 @@ import com.app.blog.commands.BlogCommand;
 import com.app.blog.converters.BlogCommandToBlog;
 import com.app.blog.converters.BlogToBlogCommand;
 import com.app.blog.models.Blog;
+import com.app.blog.models.Comment;
 import com.app.blog.models.Post;
 import com.app.blog.models.User;
 import com.app.blog.repositories.BlogRepositorium;
+import com.app.blog.repositories.CommentRepositorium;
 import com.app.blog.repositories.PostRepositorium;
 import com.app.blog.repositories.UserRepositorium;
 import javassist.NotFoundException;
@@ -24,13 +26,15 @@ public class BlogService implements IBlog {
     private final BlogRepositorium blogRepositorium;
     private final UserRepositorium userRepositorium;
     private final PostRepositorium postRepositorium;
+    private final CommentRepositorium commentRepositorium;
     private final BlogCommandToBlog blogCommandToBlog;
     private final BlogToBlogCommand blogToBlogCommand;
 
-    public BlogService(BlogRepositorium blogRepositorium, UserRepositorium userRepositorium, PostRepositorium postRepositorium, BlogCommandToBlog blogCommandToBlog, BlogToBlogCommand blogToBlogCommand) {
+    public BlogService(BlogRepositorium blogRepositorium, UserRepositorium userRepositorium, PostRepositorium postRepositorium, CommentRepositorium commentRepositorium, BlogCommandToBlog blogCommandToBlog, BlogToBlogCommand blogToBlogCommand) {
         this.blogRepositorium = blogRepositorium;
         this.userRepositorium = userRepositorium;
         this.postRepositorium = postRepositorium;
+        this.commentRepositorium = commentRepositorium;
         this.blogCommandToBlog = blogCommandToBlog;
         this.blogToBlogCommand = blogToBlogCommand;
     }
@@ -88,8 +92,6 @@ public class BlogService implements IBlog {
     @Override
     public void deleteById(Long l) throws NotFoundException {
         Blog blog = findById(l);
-        Iterable<Post> posts = postRepositorium.findAllByBlogId(blog.getId());
-        postRepositorium.deleteAll(posts);
         blogRepositorium.deleteById(l);
     }
 
