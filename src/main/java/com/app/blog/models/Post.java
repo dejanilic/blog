@@ -36,6 +36,6 @@ public class Post {
     @JoinColumn(name = "blog_id")
     private Blog blog;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<Comment>();
 }
