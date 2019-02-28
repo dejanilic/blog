@@ -51,7 +51,7 @@ public class PostController {
 
     @RequestMapping(value = "/dashboard/user/{id}/post/show", method = RequestMethod.POST)
     public String savePost(@PathVariable String id, @Valid @ModelAttribute("post") PostCommand postCommand, BindingResult result) throws NotFoundException {
-        log.info("showing posts page");
+        log.info("showing post page from savePost method");
         if (result.hasErrors()) {
             result.getAllErrors().forEach(objectError -> {
                 log.error(objectError.toString());

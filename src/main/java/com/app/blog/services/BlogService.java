@@ -45,7 +45,7 @@ public class BlogService implements IBlog {
         if (!isNumber(id)) {
             throw new NumberFormatException(id + " is not a number.");
         }
-        log.info("saving blog");
+
         Optional<Blog> optionalBlog = blogRepositorium.findByTitle(blogCommand.getTitle());
         if (optionalBlog.isPresent()) {
             log.info("blog already exists, saving failed");
@@ -56,6 +56,7 @@ public class BlogService implements IBlog {
             throw new NotFoundException("User not found for ID value: " + id);
         }
 
+        log.info("saving blog");
         Blog detachedBlog = blogCommandToBlog.convert(blogCommand);
 
         user.getBlogs().add(detachedBlog);
@@ -68,7 +69,7 @@ public class BlogService implements IBlog {
         blogRepositorium.save(detachedBlog);
         userRepositorium.save(user);
 
-        return blogCommand;
+        return blogToBlogCommand.convert(detachedBlog);
     }
 
     @Override
@@ -90,8 +91,7 @@ public class BlogService implements IBlog {
     }
 
     @Override
-    public void deleteById(Long l) throws NotFoundException {
-        Blog blog = findById(l);
+    public void deleteById(Long l){
         blogRepositorium.deleteById(l);
     }
 

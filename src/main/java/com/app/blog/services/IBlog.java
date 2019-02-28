@@ -11,5 +11,5 @@ public interface IBlog {
     Set<Blog> getBlogs();
     BlogCommand findCommandById(Long valueOf) throws NotFoundException;
     Blog findById(Long l) throws NotFoundException;
-    void deleteById(Long valueOf) throws NotFoundException;
+    void deleteById(Long valueOf);
 }

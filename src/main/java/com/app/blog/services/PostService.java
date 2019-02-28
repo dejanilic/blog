@@ -5,22 +5,22 @@ import com.app.blog.controllers.BlogController;
 import com.app.blog.converters.PostCommandToPost;
 import com.app.blog.converters.PostToPostCommand;
 import com.app.blog.models.Blog;
+import com.app.blog.models.Comment;
 import com.app.blog.models.Post;
 import com.app.blog.models.User;
 import com.app.blog.repositories.BlogRepositorium;
+import com.app.blog.repositories.CommentRepositorium;
 import com.app.blog.repositories.PostRepositorium;
 import com.app.blog.repositories.UserRepositorium;
 import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.IterableUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,13 +29,15 @@ public class PostService implements IPost{
     private final PostRepositorium postRepositorium;
     private final UserRepositorium userRepositorium;
     private final BlogRepositorium blogRepositorium;
+    private final CommentRepositorium commentRepositorium;
     private final PostCommandToPost postCommandToPost;
     private final PostToPostCommand postToPostCommand;
 
-    public PostService(PostRepositorium postRepositorium, UserRepositorium userRepositorium, BlogRepositorium blogRepositorium, PostCommandToPost postCommandToPost, PostToPostCommand postToPostCommand) {
+    public PostService(PostRepositorium postRepositorium, UserRepositorium userRepositorium, BlogRepositorium blogRepositorium, CommentRepositorium commentRepositorium, PostCommandToPost postCommandToPost, PostToPostCommand postToPostCommand) {
         this.postRepositorium = postRepositorium;
         this.userRepositorium = userRepositorium;
         this.blogRepositorium = blogRepositorium;
+        this.commentRepositorium = commentRepositorium;
         this.postCommandToPost = postCommandToPost;
         this.postToPostCommand = postToPostCommand;
     }
@@ -56,6 +58,7 @@ public class PostService implements IPost{
         if (!isNumber(id)) {
             throw new NumberFormatException(id + " is not a number.");
         }
+
         log.info("saving post");
         User user = userRepositorium.findById(Long.valueOf(id)).orElse(null);
         if (user == null) {
@@ -82,11 +85,13 @@ public class PostService implements IPost{
         Date dateModified = new Date();
         detachedPost.setDateModified(dateFormatDateModified.format(dateModified));
         detachedPost.setModifiedBy(user.getUsername());
+        detachedPost.setCommentCount(IterableUtils.size(commentRepositorium.findAllByPostId(detachedPost.getId())));
+        System.out.println("Velicina: " + IterableUtils.size(commentRepositorium.findAllByPostId(detachedPost.getId())));
 
         postRepositorium.save(detachedPost);
         blogRepositorium.save(blog);
 
-        return postCommand;
+        return postToPostCommand.convert(detachedPost);
     }
 
     @Override

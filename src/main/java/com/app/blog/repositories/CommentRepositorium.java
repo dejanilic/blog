@@ -4,4 +4,5 @@ import com.app.blog.models.Comment;
 import org.springframework.data.repository.CrudRepository;
 
 public interface CommentRepositorium extends CrudRepository<Comment, Long> {
+    Iterable<Comment> findAllByPostId(Long l);
 }

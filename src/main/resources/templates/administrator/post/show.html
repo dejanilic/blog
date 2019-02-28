@@ -69,7 +69,8 @@
                         <td><a href="#" th:href="@{'/dashboard/user/' + ${id} + '/post/' + ${post.id} + '/comments'}">
 
                             <button type="button" class="btn btn-primary">
-                                <span class="badge badge-light">4</span>
+                                <span class="badge badge-light" th:text="${post.commentCount}" th:value="${post.commentCount}"></span>
+
                             </button>
 
                         </a></td>

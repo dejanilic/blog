@@ -17,4 +17,5 @@ public class PostCommand {
 
     @NotBlank
     private String content;
+    private Integer commentCount;
 }

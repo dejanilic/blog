@@ -22,6 +22,7 @@ public class PostToPostCommand implements Converter<Post, PostCommand> {
         postCommand.setId(source.getId());
         postCommand.setTitle(source.getTitle());
         postCommand.setContent(source.getContent());
+        postCommand.setCommentCount(source.getCommentCount());
 
         return postCommand;
     }

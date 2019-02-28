@@ -56,6 +56,7 @@ public class UserController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String saveUser(@Valid @ModelAttribute("user") UserCommand command, BindingResult result, RedirectAttributes redirectAttributes) {
+        log.info("showing user page from saveUser method");
         if (result.hasErrors()) {
             result.getAllErrors().forEach(objectError -> {
                 log.info(objectError.toString());
@@ -63,7 +64,6 @@ public class UserController {
             return "register";
         }
 
-        log.info("calling saveUser method");
         UserCommand userCommand = userService.saveUser(command);
         if(userCommand == null) {
             redirectAttributes.addFlashAttribute("issaved", false);

@@ -74,7 +74,7 @@ public class UserControllerTest {
             .param("password", "some password")
             .param("email", "email@email.com")
         )
-                .andExpect(status().is3xxRedirection())
+                .andExpect(status().isOk())
                 .andExpect(view().name("redirect:/login"));
     }
 
