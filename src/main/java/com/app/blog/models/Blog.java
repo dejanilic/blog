@@ -25,6 +25,6 @@ public class Blog {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new HashSet<>();
 
-    @OneToMany(mappedBy = "blog")
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
     private Set<Post> posts = new HashSet<>();
 }
