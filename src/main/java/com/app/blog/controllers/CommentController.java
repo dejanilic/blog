@@ -57,6 +57,22 @@ public class CommentController {
         return "redirect:/dashboard/user/" + userid + "/comment/show";
     }
 
+    @RequestMapping(value = "/dashboard/user/{userid}/site/post/{postid}/save", method = RequestMethod.POST)
+    public String saveCommentFromSite(@Valid @ModelAttribute("comment") CommentCommand commentCommand, BindingResult result, @PathVariable String userid, @PathVariable String postid, RedirectAttributes redirectAttributes) throws NotFoundException {
+        log.info("saving comments from saveCommentFromSite method");
+        if (result.hasErrors()) {
+            result.getAllErrors().forEach(objectError -> {
+                log.error(objectError.toString());
+            });
+            redirectAttributes.addFlashAttribute("saved", false);
+            return "redirect:/dashboard/user/" + userid + "/site/post/" + postid;
+        }
+
+        CommentCommand savedComment = commentService.saveComment(commentCommand, postid, userid);
+        redirectAttributes.addFlashAttribute("saved", true);
+        return "redirect:/dashboard/user/" + userid + "/site/post/" + postid;
+    }
+
     @RequestMapping(value = "/dashboard/user/{userid}/post/{postid}/comment/{commentid}/delete", method = RequestMethod.GET)
     public String deleteComment(@PathVariable String commentid, @PathVariable String userid, RedirectAttributes redirectAttributes){
         commentService.deleteById(Long.valueOf(commentid));

@@ -64,7 +64,7 @@ public class UserControllerTest {
         userCommand.setPosition(Position.ADMINISTRATOR);
 
         // when
-        when(userService.saveUser(any())).thenReturn(userCommand);
+        when(userService.saveUser(any(), "")).thenReturn(userCommand);
 
         // then
         mockMvc.perform(post("/registration")
@@ -81,7 +81,7 @@ public class UserControllerTest {
 
     @Test
     public void saveUserNull() throws Exception {
-        when(userService.saveUser(any())).thenReturn(null);
+        when(userService.saveUser(any(), "")).thenReturn(null);
 
         mockMvc.perform(post("/registration")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -98,7 +98,7 @@ public class UserControllerTest {
     @Test
     public void saveUserValidationError() throws Exception {
         // when
-        when(userService.saveUser(any())).thenReturn(null);
+        when(userService.saveUser(any(), "")).thenReturn(null);
 
         // then
         mockMvc.perform(post("/registration")

@@ -18,13 +18,18 @@ public class UserToUserCommand implements Converter<User, UserCommand> {
             return null;
         }
 
-        final UserCommand user = new UserCommand();
-        user.setId(source.getId());
-        user.setUsername(source.getUsername());
-        user.setPassword(source.getPassword());
-        user.setEmail(source.getEmail());
-        user.setPosition(source.getPosition());
+        final UserCommand userCommand = new UserCommand();
+        userCommand.setId(source.getId());
+        userCommand.setUsername(source.getUsername());
+        userCommand.setPassword(source.getPassword());
+        userCommand.setEmail(source.getEmail());
+        userCommand.setPosition(source.getPosition());
+        userCommand.setDateCreated(source.getDateCreated());
+        userCommand.setDateModified(source.getDateModified());
+        userCommand.setCreatedBy(source.getCreatedBy());
+        userCommand.setModifiedBy(source.getModifiedBy());
+        userCommand.setCommentCount(source.getCommentCount());
 
-        return user;
+        return userCommand;
     }
 }

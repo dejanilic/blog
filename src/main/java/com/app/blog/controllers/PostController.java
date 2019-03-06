@@ -78,6 +78,4 @@ public class PostController {
         redirectAttributes.addFlashAttribute("deleted", true);
         return "redirect:/dashboard/user/" + id + "/post/show";
     }
-
-
 }

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <title>New post</title>
+</head>
+<body>
+<div class="container-fluid" style="padding-left: 0px">
+    <div class="row">
+        <div class="col-2 min-vh-100" style="border: 1px solid black; background-color: #e2e2e2">
+            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id} + '/site'}" role="button" style="margin-top: 0.5rem;">Site</a><br>
+            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id}}" role="button"><i class="fas fa-home"></i>Dashboard</a><br>
+            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id} + '/post/show'}" role="button"><i class="far fa-file"></i>Posts</a><br>
+            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id} + '/blog/show'}" role="button"><i class="far fa-file"></i>Blogs</a><br>
+            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id} + '/comment/show'}" role="button"><i class="far fa-file"></i>Comments</a><br>
+            <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{'/dashboard/user/' + ${id} + '/user/show'}" role="button"><i class="far fa-file"></i>Users</a><br>
+
+        </div>
+        <div class="col-10" style="border: 1px solid black;">
+            <div class="row">
+                <div class="col-6 mx-auto">
+                    <form th:object="${user}" th:action="@{'/dashboard/user/' + ${id} + '/user/show'}" method="post">
+
+                        <input type="hidden" th:field="*{id}"/>
+                        <div class="form-group row" th:class="${#fields.hasErrors('username')}
+                                ? 'form-group row has-error' : 'form-group row'">
+                            <label for="username" class="col-sm-2 col-form-label">Username</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="username" placeholder="Username" th:field="*{username}" th:errorclass="has-error">
+                                <span class="help-block" th:if="${#fields.hasErrors('username')}">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('username')}" th:text="${err}"/>
+                            </ul>
+                        </span>
+                            </div>
+                        </div>
+                        <div class="form-group row" th:class="${#fields.hasErrors('password')}
+                                ? 'form-group row has-error' : 'form-group row'">
+                            <label for="password" class="col-sm-2 col-form-label">Password</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="password" placeholder="Password" th:errorclass="has-error" th:field="*{password}" >
+                                <span class="help-block" th:if="${#fields.hasErrors('password')}">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('password')}" th:text="${err}"/>
+                            </ul>
+                        </span>
+                            </div>
+                        </div>
+                        <div class="form-group row" th:class="${#fields.hasErrors('email')}
+                                ? 'form-group row has-error' : 'form-group row'">
+                            <label for="email" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="email" placeholder="Email" th:field="*{email}" th:errorclass="has-error">
+                                <span class="help-block" th:if="${#fields.hasErrors('email')}">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('email')}" th:text="${err}"/>
+                            </ul>
+                        </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Role</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" th:field="*{position}">
+                                    <option value="" selected hidden>Choose here</option>
+                                    <option th:each="difficultyValue : ${T(com.app.blog.models.Position).values()}"
+                                            th:value="${difficultyValue.name()}"
+                                            th:text="${difficultyValue.name()}"
+                                            th:if="${difficultyValue.name() != 'SUPER_ADMIN'}"
+                                    >value
+                                    </option>
+                                </select>
+                                <span class="help-block" th:if="${#fields.hasErrors('position')}">
+                                    <ul>
+                                       <li th:each="err : ${#fields.errors('position')}" th:text="${err}"/>
+                                    </ul>
+                                </span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

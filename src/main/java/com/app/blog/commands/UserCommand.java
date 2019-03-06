@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 public class UserCommand {
     private Long id;
 
+
     @NotBlank
     @Size(min = 1, max = 20)
     private String username;
@@ -30,4 +31,10 @@ public class UserCommand {
 
     @NotNull
     private Position position;
+    private String dateCreated;
+    private String createdBy;
+    private String dateModified;
+    private String modifiedBy;
+    private Integer commentCount;
+
 }

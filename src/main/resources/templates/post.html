@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Post</title>
+
+    <style>
+        .col-12 {
+            margin: 10px 0px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="row">
+        <div class="col-12" style="border: 1px solid black">
+            <h1 class="text-center">Blog title</h1>
+        </div>
+    </div>
+
+    <!-- POSTS -->
+    <div class="row">
+
+        <div class="col-12 h-100" style="border: 1px solid black">
+
+            <th:block th:each="post : ${post}">
+                <div class="jumbotron" style="padding-bottom: 10px; padding-top: 20px;">
+                    <h2 class="text-center" th:text="${post.title}">Post title</h2><br>
+                    <p th:text="${post.content}" style="overflow: auto">Lorem ipsum</p>
+
+                    <div class="row">
+                        <div class="col-3" style="border: 1px solid black">
+                            <p class="text-center" style="margin-bottom: 0px;" th:text="${post.user.username}">owner</p>
+                        </div>
+                        <div class="col-3" style="border: 1px solid black">
+                            <p class="text-center" style="margin-bottom: 0px;">category</p>
+                        </div>
+                        <div class="col-3" style="border: 1px solid black">
+                            <p class="text-center" style="margin-bottom: 0px;" th:text="${post.dateCreated}">date published</p>
+                        </div>
+                        <div class="col-3" style="border: 1px solid black">
+                            <p class="text-center" style="margin-bottom: 0px;">comments</p>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12" style="border: 1px solid black">
+            <h3>Comments</h3>
+            <th:block th:each="comment : ${comments}">
+                <div class="jumbotron" style="padding-bottom: 10px; padding-top: 20px;">
+                    <div class="row">
+                        <div class="col-12" style="border: 1px solid black">
+                            <div class="row">
+                                <div class="col-2">
+                                    <p th:text="${post.user.username}">Name</p>
+                                </div>
+                                <div class="col-2">
+                                    <p th:text="${comment.dateCreated}">Date</p>
+                                </div>
+                            </div>
+                            <p th:text="${comment.content}">Lorem ipsum dorem sorem</p><br>
+                            <a href="#">Reply</a>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12" style="border: 1px solid black">
+
+            <div class="alert alert-success" th:if="${saved == true}">
+                <p>Comment has been successfully saved</p>
+            </div>
+
+            <div class="alert alert-danger" th:if="${saved == false}">
+                <p>Comment has not been saved</p>
+            </div>
+
+            <h3>Post a comment</h3>
+            <div class="jumbotron" style="padding-bottom: 10px; padding-top: 20px;">
+                <form th:object="${comment}" th:action="@{'/dashboard/user/' + ${userid} + '/site/post/' + ${postid} + '/save'}" method="post">
+                    <input type="hidden" id="idPrim" th:field="*{id}"/>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Add new comment</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="" th:field="*{content}">
+                        <span class="help-block" th:if="${#fields.hasErrors('content')}">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('content')}" th:text="${err}"/>
+                                </ul>
+                            </span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit comment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12" style="border: 1px solid black">
+            <h3 class="text-center">Footer
+                <div class="float-right">
+                    <p>arrow up</p>
+                </div>
+            </h3>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -26,6 +26,7 @@ public class User {
     private String createdBy;
     private String dateModified;
     private String modifiedBy;
+    private Integer commentCount;
 
     @Transient
     private Position position;

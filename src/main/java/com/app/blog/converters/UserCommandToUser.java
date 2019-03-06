@@ -24,6 +24,11 @@ public class UserCommandToUser implements Converter<UserCommand, User> {
         user.setPassword(source.getPassword());
         user.setEmail(source.getEmail());
         user.setPosition(source.getPosition());
+        user.setDateCreated(source.getDateCreated());
+        user.setDateModified(source.getDateModified());
+        user.setCreatedBy(source.getCreatedBy());
+        user.setModifiedBy(source.getModifiedBy());
+        user.setCommentCount(source.getCommentCount());
 
         return user;
     }

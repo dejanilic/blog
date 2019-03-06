@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface CommentRepositorium extends CrudRepository<Comment, Long> {
     Iterable<Comment> findAllByPostId(Long l);
+    Iterable<Comment> findFirst3ByContentNotLikeOrderByIdDesc(String a);
 }
