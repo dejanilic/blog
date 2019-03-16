@@ -5,6 +5,7 @@ import com.app.blog.models.Comment;
 import com.app.blog.models.Post;
 import com.app.blog.repositories.CommentRepositorium;
 import com.app.blog.repositories.PostRepositorium;
+import com.app.blog.services.BlogService;
 import com.app.blog.services.PostService;
 import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 
@@ -21,11 +24,13 @@ import java.util.*;
 public class SiteController {
     private final PostService postService;
     private final PostRepositorium postRepositorium;
+    private final BlogService blogService;
     private final CommentRepositorium commentRepositorium;
 
-    public SiteController(PostService postService, PostRepositorium postRepositorium, CommentRepositorium commentRepositorium) {
+    public SiteController(PostService postService, PostRepositorium postRepositorium, BlogService blogService, CommentRepositorium commentRepositorium) {
         this.postService = postService;
         this.postRepositorium = postRepositorium;
+        this.blogService = blogService;
         this.commentRepositorium = commentRepositorium;
     }
 
@@ -52,5 +57,22 @@ public class SiteController {
         model.addAttribute("comments", comments);
         model.addAttribute("comment", new CommentCommand());
         return "post";
+    }
+
+    @RequestMapping(value = "/site", method = RequestMethod.GET)
+    public String showLandingPage(Model model) {
+        model.addAttribute("blogs", blogService.getBlogs());
+        return "landing";
+    }
+
+    @RequestMapping(value = "/site", method = RequestMethod.POST)
+    public String showSiteFromLandingPage(RedirectAttributes redirectAttributes, @RequestParam String blog) {
+        log.info("showing site page...");
+        if (blog.equals("")) {
+            redirectAttributes.addFlashAttribute("isselected", false);
+            return "redirect:/site";
+        }
+
+        return "unregisted-site";
     }
 }

@@ -27,7 +27,7 @@ public class Post {
     private String createdBy;
     private String dateModified;
     private String modifiedBy;
-    private Integer commentCount;
+    private Integer commentCount = 0;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

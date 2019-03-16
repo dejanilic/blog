@@ -10,6 +10,7 @@ public interface IUser {
     Set<User> getUsers();
     Boolean exists(User user);
     String validate(UserCommand userCommand);
+    UserCommand saveRegisteredUser(UserCommand userCommand);
     UserCommand saveUser(UserCommand userCommand, String id) throws NotFoundException;
     UserCommand findCommandById(Long l) throws NotFoundException;
     User findById(Long l) throws NotFoundException;

@@ -82,6 +82,7 @@ public class CommentService implements IComment {
 
         log.info("saving comment");
         Comment detachedComment = commentCommandToComment.convert(commentCommand);
+        post.setCommentCount(post.getCommentCount() + 1);
         detachedComment.setUser(user);
         detachedComment.setPost(post);
         detachedComment.setCreatedBy(user.getUsername());

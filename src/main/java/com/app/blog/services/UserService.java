@@ -77,6 +77,30 @@ public class UserService implements IUser {
 
     @Override
     @Transactional
+    public UserCommand saveRegisteredUser(UserCommand userCommand) {
+        User detachedUser = userCommandToUser.convert(userCommand);
+        if (!exists(detachedUser)) {
+            log.info("saving user");
+            detachedUser.setRole(roleRepositorium.getRoleByPosition(detachedUser.getPosition()).orElse(null));
+            detachedUser.setCreatedBy("program");
+
+            DateFormat dateFormatDateCreated = new SimpleDateFormat("MM/dd/yyyy");
+            Date dateCreated = new Date();
+            detachedUser.setDateCreated(dateFormatDateCreated.format(dateCreated));
+
+            DateFormat dateFormatDateModified = new SimpleDateFormat("MM/dd/yyyy");
+            Date dateModified = new Date();
+            detachedUser.setDateModified(dateFormatDateModified.format(dateModified));
+            detachedUser.setModifiedBy("program");
+
+            userRepositorium.save(detachedUser);
+            return userToUserCommand.convert(detachedUser);
+        }
+        return null;
+    }
+
+    @Override
+    @Transactional
     public UserCommand saveUser(UserCommand userCommand, String id) throws NotFoundException {
         User detachedUser = userCommandToUser.convert(userCommand);
         if (!exists(detachedUser)) {

@@ -68,7 +68,7 @@ public class UserController {
             return "register";
         }
 
-        UserCommand userCommand = userService.saveUser(command, "");
+        UserCommand userCommand = userService.saveRegisteredUser(command);
         if(userCommand == null) {
             redirectAttributes.addFlashAttribute("issaved", false);
             return "redirect:/register";

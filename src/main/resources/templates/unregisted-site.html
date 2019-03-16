@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Blog</title>
+
+    <style>
+        .col-12 {
+            margin: 10px 0px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="row">
+        <div class="col-12" style="border: 1px solid black">
+            <h1 class="text-center">Blog title</h1>
+        </div>
+    </div>
+
+    <!-- POSTS -->
+    <div class="row">
+
+        <div class="col-8 h-100" style="border: 1px solid black">
+
+            <th:block th:each="post : ${posts}">
+                <div class="jumbotron" style="padding-bottom: 10px; padding-top: 20px;">
+                    <h2 class="text-center" th:text="${post.title}">Post title</h2><br>
+                    <div th:if="${post.content.length() >= 800}" style="overflow: auto;">
+                        <p th:text="${post.content.substring(0, 800)} + '...'">Lorem ipsum</p>
+                        <a class="btn btn-primary" href="#" th:href="@{'/dashboard/user/' + ${userid} + '/site/post/' + ${post.id}}" role="button"><i class="fas fa-home"></i>Show more</a>
+                    </div>
+                    <div th:if="${post.content.length() < 800}">
+                        <p th:text="${post.content}">Lorem ipsum</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3" style="border: 1px solid black">
+                            <p class="text-center" style="margin-bottom: 0px;" th:text="${post.user.username}">owner</p>
+                        </div>
+                        <div class="col-3" style="border: 1px solid black">
+                            <p class="text-center" style="margin-bottom: 0px;">category</p>
+                        </div>
+                        <div class="col-3" style="border: 1px solid black">
+                            <p class="text-center" style="margin-bottom: 0px;" th:text="${post.dateCreated}">date published</p>
+                        </div>
+                        <div class="col-3" style="border: 1px solid black">
+                            <p class="text-center" style="margin-bottom: 0px;">comments</p>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+
+        </div>
+
+        <div class="col-3 offset-1 h-100" style="border: 1px solid black">
+            <!-- RECENT POSTS -->
+            <div class="row">
+                <div class="col-12" style="border: 1px solid black">
+                    <h3 class="text-center">Recent posts</h3>
+
+                    <!-- RECENT Post 1 -->
+                    <th:block th:each="post : ${latestposts}">
+                        <div class="row">
+                            <div class="col-8" style="border: 1px solid black">
+                                <p class="text-center" th:text="${post.title}">Post title 1</p>
+                            </div>
+                            <div class="col-4" style="border: 1px solid black">
+                                <p class="text-center" th:text="${post.dateModified}">date</p>
+                            </div>
+                        </div>
+                    </th:block>
+
+                </div>
+            </div>
+
+            <!-- RECENT COMMENTS -->
+            <div class="row">
+                <div class="col-12" style="border: 1px solid black">
+                    <h3 class="text-center">Recent comments</h3>
+
+                    <!-- RECENT COMMENT 1 -->
+                    <th:block th:each="comment : ${latestscomments}">
+                        <div class="row">
+                            <div class="col-8" style="border: 1px solid black">
+                                <div th:if="${comment.content.length() >= 10}">
+                                    <p class="text-center" th:text="${comment.content.subSequence(0, 10)} + '...'">Recent comment 1</p>
+                                </div>
+                                <div th:if="${comment.content.length() < 10}">
+                                    <p class="text-center" th:text="${comment.content} + '...'">Recent comment 1</p>
+                                </div>
+                            </div>
+                            <div class="col-4" style="border: 1px solid black">
+                                <p class="text-center" th:text="${comment.dateCreated}">date</p>
+                            </div>
+                        </div>
+                    </th:block>
+
+                </div>
+            </div>
+
+            <!-- RECENT CATEGORIES -->
+            <div class="row">
+                <div class="col-12" style="border: 1px solid black">
+                    <h3 class="text-center">Recent categories</h3>
+
+                    <!-- RECENT CATEGORIES -->
+                    <div class="row">
+                        <div class="col-12" style="border: 1px solid black">
+                            <p class="text-center">Recent category 1</p>
+                        </div>
+                        <div class="col-12" style="border: 1px solid black">
+                            <p class="text-center">Recent category 2</p>
+                        </div>
+                        <div class="col-12" style="border: 1px solid black">
+                            <p class="text-center">Recent category 3</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12" style="border: 1px solid black">
+            <h3 class="text-center">Footer
+                <div class="float-right">
+                    <p>arrow up</p>
+                </div>
+            </h3>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
