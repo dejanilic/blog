@@ -28,7 +28,6 @@ public class UserToUserCommand implements Converter<User, UserCommand> {
         userCommand.setDateModified(source.getDateModified());
         userCommand.setCreatedBy(source.getCreatedBy());
         userCommand.setModifiedBy(source.getModifiedBy());
-        userCommand.setCommentCount(source.getCommentCount());
 
         return userCommand;
     }

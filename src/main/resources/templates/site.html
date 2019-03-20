@@ -21,7 +21,7 @@
     <!-- HEADER -->
     <div class="row">
         <div class="col-12" style="border: 1px solid black">
-            <h1 class="text-center">Blog title</h1>
+            <h1 class="text-center" th:text="${currentblog}">Blog title</h1>
         </div>
     </div>
 
@@ -51,8 +51,8 @@
                         <div class="col-3" style="border: 1px solid black">
                             <p class="text-center" style="margin-bottom: 0px;" th:text="${post.dateCreated}">date published</p>
                         </div>
-                        <div class="col-3" style="border: 1px solid black">
-                            <p class="text-center" style="margin-bottom: 0px;">comments</p>
+                        <div class="col-3 text-center" style="border: 1px solid black">
+                            <a  th:href="@{'/dashboard/user/' + ${userid} + '/site/post/' + ${post.id}}" th:text="${post.commentCount} + ' comments'">0 comments</a>
                         </div>
                     </div>
                 </div>
@@ -66,8 +66,7 @@
                 <div class="col-12" style="border: 1px solid black">
                     <h3 class="text-center">Recent posts</h3>
 
-                    <!-- RECENT Post 1 -->
-                    <th:block th:each="post : ${latestposts}">
+                    <th:block th:each="post : ${latestposts}" th:if="${not #lists.isEmpty(posts)}">
                         <div class="row">
                             <div class="col-8" style="border: 1px solid black">
                                 <p class="text-center" th:text="${post.title}">Post title 1</p>
@@ -86,8 +85,7 @@
                 <div class="col-12" style="border: 1px solid black">
                     <h3 class="text-center">Recent comments</h3>
 
-                    <!-- RECENT COMMENT 1 -->
-                    <th:block th:each="comment : ${latestscomments}">
+                    <th:block th:each="comment : ${latestscomments}" th:if="${not #lists.isEmpty(posts)}">
                         <div class="row">
                             <div class="col-8" style="border: 1px solid black">
                                 <div th:if="${comment.content.length() >= 10}">
@@ -111,8 +109,7 @@
                 <div class="col-12" style="border: 1px solid black">
                     <h3 class="text-center">Recent categories</h3>
 
-                    <!-- RECENT CATEGORIES -->
-                    <div class="row">
+                    <div class="row" th:if="${not #lists.isEmpty(posts)}">
                         <div class="col-12" style="border: 1px solid black">
                             <p class="text-center">Recent category 1</p>
                         </div>

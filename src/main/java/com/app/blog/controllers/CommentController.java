@@ -68,14 +68,15 @@ public class CommentController {
             return "redirect:/dashboard/user/" + userid + "/site/post/" + postid;
         }
 
-        CommentCommand savedComment = commentService.saveComment(commentCommand, postid, userid);
+        commentService.saveComment(commentCommand, postid, userid);
         redirectAttributes.addFlashAttribute("saved", true);
         return "redirect:/dashboard/user/" + userid + "/site/post/" + postid;
     }
 
     @RequestMapping(value = "/dashboard/user/{userid}/post/{postid}/comment/{commentid}/delete", method = RequestMethod.GET)
-    public String deleteComment(@PathVariable String commentid, @PathVariable String userid, RedirectAttributes redirectAttributes){
+    public String deleteComment(@PathVariable String commentid,@PathVariable String postid, @PathVariable String userid, RedirectAttributes redirectAttributes) throws NotFoundException {
         commentService.deleteById(Long.valueOf(commentid));
+        commentService.decrementCommentCount(postid);
         redirectAttributes.addFlashAttribute("deleted", true);
         return "redirect:/dashboard/user/" + userid + "/comment/show";
     }

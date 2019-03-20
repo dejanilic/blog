@@ -35,6 +35,5 @@ public class UserCommand {
     private String createdBy;
     private String dateModified;
     private String modifiedBy;
-    private Integer commentCount;
 
 }

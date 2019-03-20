@@ -1,6 +1,9 @@
 package com.app.blog.controllers;
 
 import com.app.blog.commands.BlogCommand;
+import com.app.blog.converters.BlogCommandToBlog;
+import com.app.blog.converters.BlogToBlogCommand;
+import com.app.blog.repositories.BlogRepositorium;
 import com.app.blog.services.BlogService;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,13 +29,17 @@ public class BlogControllerTest {
 
     private BlogController blogController;
 
+    private BlogCommandToBlog blogCommandToBlog;
+
+    private BlogRepositorium blogRepositorium;
+
     private MockMvc mockMvc;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        blogController = new BlogController(blogService);
+        blogController = new BlogController(blogService, blogCommandToBlog, blogRepositorium);
         mockMvc = MockMvcBuilders.standaloneSetup(blogController).build();
     }
 

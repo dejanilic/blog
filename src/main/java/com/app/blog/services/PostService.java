@@ -48,7 +48,10 @@ public class PostService implements IPost{
         Set<Post> posts = new HashSet<>();
         postRepositorium.findAll().iterator().forEachRemaining(posts::add);
         return posts.stream()
-                .filter(post -> post.getBlog().getTitle().equals(BlogController.currentBlog.toString()))
+                .filter(post -> post
+                        .getBlog()
+                        .getTitle()
+                        .equals(BlogController.currentBlog.toString()))
                 .collect(Collectors.toSet());
     }
 

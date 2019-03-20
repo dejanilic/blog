@@ -1,6 +1,10 @@
 package com.app.blog.controllers;
 
 import com.app.blog.commands.BlogCommand;
+import com.app.blog.converters.BlogCommandToBlog;
+import com.app.blog.converters.BlogToBlogCommand;
+import com.app.blog.models.Blog;
+import com.app.blog.repositories.BlogRepositorium;
 import com.app.blog.services.BlogService;
 import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -11,17 +15,24 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Slf4j
 @Controller
 public class BlogController {
     private final BlogService blogService;
+    private final BlogCommandToBlog blogCommandToBlog;
+    private final BlogRepositorium blogRepositorium;
 
     private static Boolean isSaved = false;
     public static StringBuilder currentBlog = new StringBuilder("blog 1");
 
-    public BlogController(BlogService blogService) {
+    public BlogController(BlogService blogService, BlogCommandToBlog blogCommandToBlog, BlogRepositorium blogRepositorium) {
         this.blogService = blogService;
+        this.blogCommandToBlog = blogCommandToBlog;
+        this.blogRepositorium = blogRepositorium;
     }
 
     @RequestMapping(value = "/dashboard/user/{id}/blog/show", method = RequestMethod.GET)
@@ -58,6 +69,7 @@ public class BlogController {
         }
 
         BlogCommand savedBlog = blogService.saveBlog(blogCommand, id);
+
         if (savedBlog == null) {
             redirectAttributes.addFlashAttribute("exist", true);
             return "redirect:/dashboard/user/" + id + "/blog/show";

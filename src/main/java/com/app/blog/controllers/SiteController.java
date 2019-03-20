@@ -44,6 +44,7 @@ public class SiteController {
         model.addAttribute("posts", sortedList);
         model.addAttribute("latestposts", posts);
         model.addAttribute("latestscomments", comments);
+        model.addAttribute("currentblog", BlogController.currentBlog);
         return "site";
     }
 

@@ -1,6 +1,7 @@
 package com.app.blog.services;
 
 import com.app.blog.commands.CommentCommand;
+import com.app.blog.controllers.BlogController;
 import com.app.blog.converters.CommentCommandToComment;
 import com.app.blog.converters.CommentToCommentCommand;
 import com.app.blog.models.Comment;
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -42,7 +44,13 @@ public class CommentService implements IComment {
         log.info("getting all comments");
         Set<Comment> comments = new HashSet<>();
         commentRepositorium.findAll().iterator().forEachRemaining(comments::add);
-        return comments;
+        return comments.stream()
+                .filter(comment -> comment
+                        .getPost()
+                        .getBlog()
+                        .getTitle()
+                        .equals(BlogController.currentBlog.toString()))
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -98,6 +106,18 @@ public class CommentService implements IComment {
     @Override
     public void deleteById(Long l){
         commentRepositorium.deleteById(l);
+    }
+
+    public void decrementCommentCount(String postId) throws NotFoundException{
+        Post post = postRepositorium.findById(Long.valueOf(postId)).orElse(null);
+        if (post != null) {
+            log.info("decrementing post comment count");
+            if (post.getCommentCount() == 0) {
+                return;
+            }
+            post.setCommentCount(post.getCommentCount() - 1);
+            postRepositorium.save(post);
+        }
     }
 
     private Boolean isNumber(String value) {
