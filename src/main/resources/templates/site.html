@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <title>Blog</title>
 
@@ -21,6 +22,7 @@
     <!-- HEADER -->
     <div class="row">
         <div class="col-12" style="border: 1px solid black">
+            <a class="btn btn-primary" th:href="@{'/dashboard/user/' + ${userid}}" role="button">Dashboard</a>
             <h1 class="text-center" th:text="${currentblog}">Blog title</h1>
         </div>
     </div>
@@ -43,16 +45,16 @@
 
                     <div class="row">
                         <div class="col-3" style="border: 1px solid black">
-                            <p class="text-center" style="margin-bottom: 0px;" th:text="${post.user.username}">owner</p>
+                            <p class="text-center fas fa-user" style="margin-bottom: 0px;" th:text="${post.user.username}">owner</p>
                         </div>
                         <div class="col-3" style="border: 1px solid black">
-                            <p class="text-center" style="margin-bottom: 0px;">category</p>
+                            <p class="text-center fas fa-hashtag" style="margin-bottom: 0px;">category</p>
                         </div>
                         <div class="col-3" style="border: 1px solid black">
-                            <p class="text-center" style="margin-bottom: 0px;" th:text="${post.dateCreated}">date published</p>
+                            <p class="text-center fas fa-calendar-alt" style="margin-bottom: 0px;" th:text="${post.dateCreated}">date published</p>
                         </div>
-                        <div class="col-3 text-center" style="border: 1px solid black">
-                            <a  th:href="@{'/dashboard/user/' + ${userid} + '/site/post/' + ${post.id}}" th:text="${post.commentCount} + ' comments'">0 comments</a>
+                        <div class="col-3 text-center fas fa-comment" style="border: 1px solid black">
+                            <a th:href="@{'/dashboard/user/' + ${userid} + '/site/post/' + ${post.id}}" th:text="${post.commentCount} + ' comments'">0 comments</a>
                         </div>
                     </div>
                 </div>

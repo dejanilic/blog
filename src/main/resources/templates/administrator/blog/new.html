@@ -28,6 +28,7 @@
                     <form th:object="${blog}" th:action="@{'/dashboard/user/' + ${id} + '/blog/show'}" method="post">
 
                         <input type="hidden" id="idPrim" th:field="*{id}"/>
+                        <input type="hidden" th:field="*{dateCreated}"/>
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Title</label>
                             <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="" th:field="*{title}">

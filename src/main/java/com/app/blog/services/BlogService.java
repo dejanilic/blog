@@ -65,7 +65,10 @@ public class BlogService implements IBlog {
 
         DateFormat dateFormatDateCreated = new SimpleDateFormat("MM/dd/yyyy");
         Date dateCreated = new Date();
-        detachedBlog.setDateCreated(dateFormatDateCreated.format(dateCreated));
+        System.out.println(detachedBlog.getDateCreated());
+        if (detachedBlog.getDateCreated().equals("")) {
+            detachedBlog.setDateCreated(dateFormatDateCreated.format(dateCreated));
+        }
 
         blogRepositorium.save(detachedBlog);
         userRepositorium.save(user);
