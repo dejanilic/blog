@@ -5,3 +5,4 @@ TODO
   - add spring security
   - add roles 
   - refactor to REST app
+  - refactor design
