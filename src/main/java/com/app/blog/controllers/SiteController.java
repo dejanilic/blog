@@ -57,6 +57,7 @@ public class SiteController {
         model.addAttribute("post", post);
         model.addAttribute("comments", comments);
         model.addAttribute("comment", new CommentCommand());
+        model.addAttribute("currentblog", BlogController.currentBlog);
         return "post";
     }
 

@@ -24,7 +24,7 @@
         <div class="col-12" style="border: 1px solid black">
             <a class="btn btn-primary" th:href="@{'/dashboard/user/' + ${userid}}" role="button">Dashboard</a>
             <a class="btn btn-primary" th:href="@{'/dashboard/user/' + ${userid} + '/site'}" role="button">Site</a>
-            <h1 class="text-center">Blog title</h1>
+            <h1 class="text-center" th:text="${currentblog}">Blog title</h1>
         </div>
     </div>
 
